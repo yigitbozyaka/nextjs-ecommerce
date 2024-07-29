@@ -48,6 +48,10 @@ pnpm dev
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
+Also for the admin panel you can login in [http://localhost:3000/admin/login](http://localhost:3000/admin/login)
+
+Then start adding rv's in here [http://localhost:3000/admin/add-rvs](http://localhost:3000/admin/add-rvs)
+
 # Dependencies
 
 I've used [MongoDB](https://mongodb.com/) to store rv details and user details. [HeroIcons](https://heroicons.com/) for icons. [SWR](https://swr.vercel.app/) to fetch datas from database.
