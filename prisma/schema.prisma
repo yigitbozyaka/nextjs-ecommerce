@@ -1,0 +1,77 @@
+generator client {
+  provider = "prisma-client-js"
+  binaryTargets = ["native", "rhel-openssl-1.0.x"]
+}
+
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(auto()) @map("_id") @db.ObjectId
+  name          String?   @unique
+  email         String?   @unique
+  image         String?
+  emailVerified DateTime?
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+
+  accounts Account[]
+}
+
+model Account {
+  id                String  @id @default(auto()) @map("_id") @db.ObjectId
+  userId            String  @db.ObjectId
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.String
+  access_token      String? @db.String
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.String
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model RV {
+  id             String   @id @default(auto()) @map("_id") @db.ObjectId
+  price          Int
+  year           Int
+  make           String
+  model          String
+  type           String
+  status         String
+  length         String
+  fuelType       String
+  odometer       Int
+  weight         Int
+  sleeps         Int
+  slideOuts      Int
+  vin            String
+  exteriorColour String
+  description1   String?
+  description2   String?
+  description3   String?
+  description4   String?
+  slug           String   @unique
+  imgCount       Int
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  featureds FeaturedRVs[]
+}
+
+model FeaturedRVs {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  rvId      String   @db.ObjectId
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  rv RV @relation(fields: [rvId], references: [id], onDelete: Cascade)
+}
